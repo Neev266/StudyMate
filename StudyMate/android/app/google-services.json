@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "731030836965",
+    "project_id": "flutter-signin-f2ace",
+    "storage_bucket": "flutter-signin-f2ace.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731030836965:android:bbb2c44feda223609ee60c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcyrfqxUqDM0gN1bnQ6xUAKUIlMzryaHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
