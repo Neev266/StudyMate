@@ -1,7 +1,8 @@
 
 import 'dart:async'; 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Pages/welcome.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,14 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState(){
     super.initState();
     Future.delayed(Duration(seconds: 2),(){
-
-      Navigator.pushReplacement(
-        
-        context, MaterialPageRoute(
-        builder:  (context)=>WelcomePage(),
-        ),
-        
-        );
+       FirebaseAuth.instance.authStateChanges().first.then((user){
+        if(user==null){
+          Navigator.pushReplacementNamed(context, '/welcome');
+        } else{
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      });
 
     });
   }
@@ -34,7 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
       body:Center(
         child: Image.asset(
           'assets/images/SplashScreen.png',
-          
           width: 300,
           height: 300,
         ),

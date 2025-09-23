@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => Signup(),
         '/login': (context) => Login(),
         '/welcome':(context) => WelcomePage(),
-        
       }
     );
   }
