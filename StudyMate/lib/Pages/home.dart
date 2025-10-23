@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart' ;
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/Pages/Home_page.dart';
-
+import 'package:flutter_app/to-do/ToDoList.dart';
+import 'package:flutter_app/Chatbot/chatbot.dart';
+import 'package:flutter_app/Notes/notes_list.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -85,9 +86,9 @@ class _HomeState extends State<Home> {
       body: PageView(
         controller: _pageController,
         children: [
-          Home_Page(),
-          Container(color: Colors.red),
-          Container(color: Colors.greenAccent.shade700),
+          ToDoList(),
+          NotesList(),
+          ChatScreen(),
           Container(color: Colors.orange),
         ],
         onPageChanged: (index) {
@@ -102,13 +103,13 @@ class _HomeState extends State<Home> {
         },
         items: <BottomBarItem>[
           BottomBarItem(
-            icon: Icon(Icons.home,color: Colors.blue,),
-            title: Text('Home'),
+            icon: Icon(Icons.add,color: Colors.blue,),
+            title: Text('To-Do list'),
             activeColor: Colors.blue,
           ),
           BottomBarItem(
-            icon: Icon(Icons.add,color: Colors.red,),
-            title: Text('To-Do list'),
+            icon: Icon(Icons.note,color: Colors.red,),
+            title: Text('Notes'),
             activeColor: Colors.red,
           ),
           BottomBarItem(

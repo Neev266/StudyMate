@@ -1,15 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' ;
+import 'package:flutter_app/Notes/note_service.dart';
 import 'package:flutter_app/Pages/Splash_Screen.dart';
 import 'package:flutter_app/Pages/login.dart';
 import 'package:flutter_app/Pages/welcome.dart';
+import 'package:flutter_app/to-do/todo_service.dart';
+import 'package:provider/provider.dart';
 import 'Pages/signup.dart';
 import 'Pages/home.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+       ChangeNotifierProvider(create: (_) => TodoService()),//provides your todo state to the entire app
+       ChangeNotifierProvider(create: (_) => NotesService()),
+      ],
+      child: const MyApp(),
+    ),
+    );
 }
 
 class MyApp extends StatelessWidget {
