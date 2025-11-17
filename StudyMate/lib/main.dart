@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' ;
+import 'package:flutter_app/Chatbot/chat_history.dart';
 import 'package:flutter_app/Notes/note_service.dart';
 import 'package:flutter_app/Pages/Splash_Screen.dart';
 import 'package:flutter_app/Pages/login.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_app/to-do/todo_service.dart';
 import 'package:provider/provider.dart';
 import 'Pages/signup.dart';
 import 'Pages/home.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => Signup(),
         '/login': (context) => Login(),
         '/welcome':(context) => WelcomePage(),
+        
       }
     );
   }

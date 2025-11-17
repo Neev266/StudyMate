@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart' ;
+import 'package:flutter/material.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app/Chatbot/chatbot1.dart';
 import 'package:flutter_app/to-do/ToDoList.dart';
-import 'package:flutter_app/Chatbot/chatbot.dart';
 import 'package:flutter_app/Notes/notes_list.dart';
+import 'package:flutter_app/Chatbot/chatbot.dart'; // ✅ Updated import
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,69 +14,54 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-   int _currentPage = 0;
+  int _currentPage = 0;
   final _pageController = PageController();
-  
-  Null get accountEmail => null;
-  
-  Null get accountName => null;
+
+  final currentUser = FirebaseAuth.instance.currentUser;
+  String? get userId => currentUser?.uid;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Colors.black
-        ),
-       leading: Builder(
+        iconTheme: const IconThemeData(color: Colors.black),
+        leading: Builder(
           builder: (context) => IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
+        title: const Text(
+          "StudyMate",
+          style: TextStyle(color: Colors.black),
         ),
-        title: Text("StudyMate",
-        style: TextStyle(
-          color: Colors.black,
-        ),
-        ),
-        
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.more_vert,))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
         ],
       ),
       drawer: Drawer(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                gradient:LinearGradient(
-                  colors: [Colors.white],
-                  )
-                  ),
-              accountName:accountName,
-              accountEmail: accountEmail),
-            ListTile(
-              title: Text("Item 1",
-                style: TextStyle(
-                  color: Colors.black,
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.grey.shade200],
                 ),
-                ),
-              onTap: (){},
+              ),
+              accountName: Text(currentUser?.displayName ?? "User"),
+              accountEmail: Text(currentUser?.email ?? "No email"),
             ),
             ListTile(
-              leading: const Icon(Icons.logout,
-              color: Colors.red,
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text(
+                "Log out",
+                style: TextStyle(color: Colors.red, fontSize: 18),
               ),
-              title: Text("Log out",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 18,
-                ),
-                ),
-              onTap: ()async{
+              onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushReplacementNamed(context, '/welcome');
               },
@@ -86,10 +72,9 @@ class _HomeState extends State<Home> {
       body: PageView(
         controller: _pageController,
         children: [
-          ToDoList(),
-          NotesList(),
-          ChatScreen(),
-          Container(color: Colors.orange),
+          const ToDoList(),
+          const NotesList(),
+          ChatbotPage(userId: userId ?? "guest"), // ✅ safe fallback
         ],
         onPageChanged: (index) {
           setState(() => _currentPage = index);
@@ -103,23 +88,18 @@ class _HomeState extends State<Home> {
         },
         items: <BottomBarItem>[
           BottomBarItem(
-            icon: Icon(Icons.add,color: Colors.blue,),
-            title: Text('To-Do list'),
+            icon: const Icon(Icons.add, color: Colors.blue),
+            title: const Text('To-Do'),
             activeColor: Colors.blue,
           ),
           BottomBarItem(
-            icon: Icon(Icons.note,color: Colors.red,),
-            title: Text('Notes'),
+            icon: const Icon(Icons.note, color: Colors.red),
+            title: const Text('Notes'),
             activeColor: Colors.red,
           ),
           BottomBarItem(
-            icon: Icon(Icons.camera,color: Colors.greenAccent.shade700,),
-            title: Text('Camera'),
-            activeColor: Colors.greenAccent.shade700,
-          ),
-          BottomBarItem(
-            icon: Icon(Icons.settings,color: Colors.orange,),
-            title: Text('Settings'),
+            icon: const Icon(Icons.chat_bubble_outline, color: Colors.orange),
+            title: const Text('Chatbot'),
             activeColor: Colors.orange,
           ),
         ],
@@ -127,4 +107,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
