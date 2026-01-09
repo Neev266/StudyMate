@@ -12,7 +12,7 @@ class ChatbotBloc extends Bloc<ChatbotEvent, ChatbotState> {
   String? _chatId;
   final List<Map<String, String>> _messages = [];
 
-  final String apiKey = "AIzaSyCUXqnsHHtPcpbz8GabrZnClvdH53R5AZs";
+  final String apiKey = "AIzaSyBhPtgk0gAakdm8s__hA46QLn7ymRkMG_Y";
   final String modelName = "gemini-2.5-flash";
 
   ChatbotBloc(this.chatService) : super(ChatbotInitial()) {
@@ -23,6 +23,7 @@ class ChatbotBloc extends Bloc<ChatbotEvent, ChatbotState> {
 
   Future<void> _onStartNewChat(
       StartNewChat event, Emitter<ChatbotState> emit) async {
+      print("🔴 BLOC: StartNewChat RECEIVED for user=${event.userId}");
     final id = await chatService.createNewChat(event.userId);
     _chatId = id;
     _messages.clear();
@@ -39,11 +40,14 @@ class ChatbotBloc extends Bloc<ChatbotEvent, ChatbotState> {
 
     _chatId = event.chatId;
     _messages
-      ..clear()
-      ..addAll(msgs.map((m) => {
-            "role": m["role"],
-            "text": m["text"],
-          }));
+  ..clear()
+  ..addAll(
+    msgs.map((m) => {
+      "role": m["role"] as String,
+      "text": m["text"] as String,
+    }),
+  );
+
 
     emit(ChatbotLoaded(chatId: _chatId!, messages: List.from(_messages)));
   }

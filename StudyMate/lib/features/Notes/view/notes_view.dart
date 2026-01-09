@@ -27,10 +27,10 @@ class _NotesViewState extends State<NotesView> {
 
   Widget _buildNoteCard(Note note, int index) {
     final colors = [
-      Colors.yellow[200],
-      Colors.pink[100],
-      Colors.lightBlue[100],
-      Colors.green[100],
+      Colors.yellow[300],
+      Colors.pink[200],
+      Colors.lightBlue[200],
+      Colors.green[200],
     ];
 
     return SizedBox(
@@ -86,6 +86,7 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isWeb = MediaQuery.of(context).size.width >= 900;
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocBuilder<NotesBloc, NotesState>(
@@ -104,8 +105,9 @@ class _NotesViewState extends State<NotesView> {
               );
             }
 
-            return MasonryGridView.count(
-              crossAxisCount: 2,
+            if(isWeb){
+              return MasonryGridView.count(
+              crossAxisCount: 6,
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               padding: const EdgeInsets.all(12),
@@ -115,7 +117,7 @@ class _NotesViewState extends State<NotesView> {
 
                 return Dismissible(
                   key: ValueKey(note.id),
-                  direction: DismissDirection.endToStart,
+                  direction: DismissDirection.startToEnd,
                   onDismissed: (_) {
                     context
                         .read<NotesBloc>()
@@ -137,6 +139,43 @@ class _NotesViewState extends State<NotesView> {
                 );
               },
             );
+            }
+            else{
+              return MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              padding: const EdgeInsets.all(12),
+              itemCount: notes.length,
+              itemBuilder: (context, index) {
+                final note = notes[index];
+
+                return Dismissible(
+                  key: ValueKey(note.id),
+                  direction: DismissDirection.startToEnd,
+                  onDismissed: (_) {
+                    context
+                        .read<NotesBloc>()
+                        .add(DeleteNoteEvent(index));
+                  },
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: _buildNoteCard(note, index),
+                );
+              },
+            );
+            }
+            
           }
 
           if (state is NotesError) {

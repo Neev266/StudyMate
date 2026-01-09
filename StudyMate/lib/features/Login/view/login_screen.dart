@@ -58,9 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Email
                       TextFormField(
+                        style: TextStyle(color: Colors.black),
                         controller: _email,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: _inputDecoration("Email Id", Icons.email),
+                        decoration: _inputDecoration("Email Id", Icons.email,),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter an Email Id';
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Password
                       TextFormField(
+                        style: TextStyle(color: Colors.black),
                         controller: _password,
                         obscureText: true,
                         decoration: _inputDecoration("Password", Icons.lock),

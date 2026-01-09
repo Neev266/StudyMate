@@ -42,6 +42,7 @@ class SignupPage extends StatelessWidget {
 
                         // Username Field
                         TextFormField(
+                          style: TextStyle(color: Colors.black),
                           controller: _username,
                           decoration: InputDecoration(
                             hintText: 'Username',
@@ -63,6 +64,7 @@ class SignupPage extends StatelessWidget {
 
                         // Email Field
                         TextFormField(
+                          style: TextStyle(color: Colors.black),
                           controller: _email,
                           decoration: InputDecoration(
                             hintText: 'Email',
@@ -84,6 +86,7 @@ class SignupPage extends StatelessWidget {
 
                         // Password Field
                         TextFormField(
+                          style: TextStyle(color: Colors.black),
                           controller: _password,
                           obscureText: true,
                           decoration: InputDecoration(

@@ -37,7 +37,6 @@ class _EditorViewState extends State<EditorView> {
     _attachments = List.from(widget.existingNote?.attachments ?? []);
   }
 
-  // ---------------- ADD IMAGE ----------------
   Future<void> _addImage() async {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
@@ -51,7 +50,7 @@ class _EditorViewState extends State<EditorView> {
     });
   }
 
-  // ---------------- ADD PDF ----------------
+
   Future<void> _addPdf() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -68,7 +67,6 @@ class _EditorViewState extends State<EditorView> {
     });
   }
 
-  // ---------------- SAVE NOTE ----------------
   void _saveNote() {
     final title = _titleController.text.trim();
     final content = _contentController.text.trim();
@@ -95,13 +93,13 @@ class _EditorViewState extends State<EditorView> {
     Navigator.pop(context);
   }
 
-  // ---------------- OPEN ATTACHMENT ----------------
+ 
   void _openAttachment(Attachment attachment) async {
     final uri = Uri.parse(attachment.url);
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  // ---------------- REMOVE ATTACHMENT ----------------
+
   void _removeAttachment(int index) {
     setState(() {
       _attachments.removeAt(index);

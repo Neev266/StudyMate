@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' ;
+import 'package:flutter_app/features/Chatbot/bloc/chatbot_bloc.dart';
+import 'package:flutter_app/features/Chatbot/data/chatbot_service.dart';
 import 'package:flutter_app/features/Notes/bloc/notes_bloc.dart';
 
 import 'package:flutter_app/features/Notes/data/note_service.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_app/features/Login/view/login_screen.dart';
 import 'package:flutter_app/features/Welcome/welcome.dart';
 import 'package:flutter_app/features/to-do/bloc/todo_bloc.dart';
 import 'package:flutter_app/features/to-do/data/todo_service.dart';
+import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'features/Signin/view/signin_view.dart';
@@ -16,18 +19,22 @@ import 'features/Home/home.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+
+  );
   runApp(
     MultiBlocProvider(
       providers: [
        BlocProvider(
-        create: (context) => TodoBloc(TodoService()),
-        child: Container(),
+        create: (_) => TodoBloc(TodoService()),
+       
        ),//provides your todo state to the entire app
        BlocProvider(
-        create: (context) => NotesBloc(NotesService()),
-        child: Container(),
+        create: (_) => NotesBloc(NotesService()),
+        
        ),
+       BlocProvider(create: (_)=>ChatbotBloc(ChatbotService()))
       ],
       child: const MyApp(),
     ),

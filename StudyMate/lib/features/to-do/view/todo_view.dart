@@ -15,6 +15,8 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
+  
+
 
   @override
   void initState() {
@@ -170,10 +172,12 @@ class _ToDoListState extends State<ToDoList> {
 
 
   Widget _buildTodoCard(Todo todo, int index) {
-    final colors = [
-      Colors.red[400],
-      Colors.green[100],
-      
+    
+   final colors = [
+      Colors.yellow[300],
+      Colors.pink[200],
+      Colors.lightBlue[200],
+      Colors.green[200],
     ];
 
     return GestureDetector(
@@ -222,6 +226,7 @@ class _ToDoListState extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isWeb = MediaQuery.of(context).size.width >= 900;
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocBuilder<TodoBloc, TodoState>(
@@ -239,36 +244,70 @@ class _ToDoListState extends State<ToDoList> {
               );
             }
 
-            return MasonryGridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 5,
-              padding: const EdgeInsets.all(12),
-              itemCount: todos.length,
-              itemBuilder: (context, index) {
-                final todo = todos[index];
+            if (isWeb) {
+          // WEB LAYOUT
+          return MasonryGridView.count(
+          crossAxisCount: 6,
+          mainAxisSpacing: 2,
+          crossAxisSpacing: 2,
+          
+          itemCount: todos.length,
+          itemBuilder: (context, index) {
+            final todo = todos[index];
 
-                return Dismissible(
-                  key: ValueKey(todo.id),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (_) {
-                    context
-                        .read<TodoBloc>()
-                        .add(RemoveTodoEvent(todo.id));
-                  },
-                  background: Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  child: _buildTodoCard(todo, index),
-                );
+            return Dismissible(
+              key: ValueKey(todo.id),
+              direction: DismissDirection.startToEnd,
+              onDismissed: (_) {
+                context.read<TodoBloc>().add(RemoveTodoEvent(todo.id));
               },
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 5),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(Icons.delete, color: Colors.white),
+              ),
+              child: _buildTodoCard(todo, index),
             );
+          },
+        );
+        }
+
+        //  MOBILE LAYOUT
+        else{
+        return MasonryGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+          padding: const EdgeInsets.all(12),
+          itemCount: todos.length,
+          itemBuilder: (context, index) {
+            final todo = todos[index];
+
+            return Dismissible(
+              key: ValueKey(todo.id),
+              direction: DismissDirection.startToEnd,
+              onDismissed: (_) {
+                context.read<TodoBloc>().add(RemoveTodoEvent(todo.id));
+              },
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(Icons.delete, color: Colors.white),
+              ),
+              child: _buildTodoCard(todo, index),
+            );
+          },
+        );
+        }
+
           }
 
           if (state is TodoError) {
