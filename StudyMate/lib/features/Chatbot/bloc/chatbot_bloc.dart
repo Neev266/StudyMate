@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/chatbot_service.dart';
@@ -12,7 +13,7 @@ class ChatbotBloc extends Bloc<ChatbotEvent, ChatbotState> {
   String? _chatId;
   final List<Map<String, String>> _messages = [];
 
-  final String apiKey = "AIzaSyBhPtgk0gAakdm8s__hA46QLn7ymRkMG_Y";
+  final apiKey = dotenv.env['API_KEY'];
   final String modelName = "gemini-2.5-flash";
 
   ChatbotBloc(this.chatService) : super(ChatbotInitial()) {

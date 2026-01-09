@@ -12,12 +12,14 @@ import 'package:flutter_app/features/to-do/bloc/todo_bloc.dart';
 import 'package:flutter_app/features/to-do/data/todo_service.dart';
 import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'features/Signin/view/signin_view.dart';
 import 'features/Home/home.dart';
 
 
 void main() async{
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
